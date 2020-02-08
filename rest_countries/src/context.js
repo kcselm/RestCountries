@@ -4,12 +4,26 @@ const Context = React.createContext()
 
 export class Provider extends Component {
   state = {
-    counties: ["USA", "Canada"]
+    counties: ["USA", "Canada"],
+    searchTerm:  ""
   }
 
-  componentDidMount() {
-    
-  }
+  // getSearchTerm = () => {
+  //   this.setState({})
+  // }
+
+  // async componentDidMount() {
+  //   try {
+  //     const response = await fetch(`https://restcountries.eu/rest/v2/name/united`)
+  //     if (!response.ok) {
+  //       throw Error(response.statusText)
+  //     }
+  //     const data = await response.json()
+  //     console.log(data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }  
+  // }
 
   render() {
     return (
