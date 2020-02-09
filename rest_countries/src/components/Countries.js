@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
-import { Consumer } from '../context'
+// import { Consumer } from '../context'
+// import Search from './Search'
+import Country from './Country'
 
 class Countries extends Component {
   render() {
     return (
-      <Consumer>
-        {value => {
-          console.log(value)
-          return <h1>countries</h1>
-        }}
-      </Consumer>
+      <div>
+        {this.props.countriesList.map(country => (
+          <Country 
+          key={country.numericCode} 
+          country={country}/>
+        ))}
+      </div>
+
     )
   }
 }
