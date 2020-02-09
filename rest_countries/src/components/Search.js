@@ -1,18 +1,31 @@
 import React, { Component } from 'react'
 
 import Countries from './Countries'
+import Summary from './Summary'
 
 // const Search = () => {
 class Search extends Component {
   state = {
     searchTerm: "",
-    countriesList: []
+    countriesList: [],
+    totalCountries: 0,
+    regions: [],
+    subregions: []
   }
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value})  
-    
+    this.setState({ 
+      [e.target.name]: e.target.value,
+      totalCountries: 0,
+      regions: [],
+      subregions: []
+    })  
   }
+  
+  // addElementsToState = () => {
+  //   console.log("countryNames")
+  //   // console.log(this.props.countriesList.name)
+  // }
 
   submitRequest = async () => {
     try {
@@ -21,9 +34,12 @@ class Search extends Component {
         throw Error(response.statusText)
       }
       const data = await response.json()
-      console.log(data)
-      this.setState({countriesList: data})
-      // console.log(response)
+      this.setState({
+        countriesList: data,
+        totalCountries: data.length,
+        regions: data.map(region => region.region),
+        subregions: data.map(subregion => subregion.subregion)
+      })
     } catch (error) {
       console.log(error)
     }  
@@ -49,6 +65,11 @@ class Search extends Component {
           </div>
         </div>
         <Countries countriesList={this.state.countriesList}/>
+        <Summary 
+        total={this.state.totalCountries}
+        regions={this.state.regions}
+        subregions={this.state.subregions}
+        />
       </React.Fragment>
     )
   }
