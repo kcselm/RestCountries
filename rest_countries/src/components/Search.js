@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import Error from './Error'
 import Countries from './Countries'
 import Summary from './Summary'
 
@@ -10,7 +11,8 @@ class Search extends Component {
     countriesList: [],
     totalCountries: 0,
     regions: [],
-    subregions: []
+    subregions: [], 
+    error: ""
   }
 
   onChange = e => {
@@ -21,17 +23,16 @@ class Search extends Component {
       subregions: []
     })  
   }
-  
-  // addElementsToState = () => {
-  //   console.log("countryNames")
-  //   // console.log(this.props.countriesList.name)
-  // }
 
   submitRequest = async () => {
     try {
       const response = await fetch(`https://restcountries.eu/rest/v2/name/${this.state.searchTerm}`)
-      if (!response.ok) {
-        throw Error(response.statusText)
+      if (response.status === 404) {
+        this.setState({error: "Invalid Search"})
+        throw Error(response.statusText),
+        console.log(response.statusText)
+      } else {
+        this.setState({error: ""})
       }
       const data = await response.json()
       this.setState({
@@ -64,6 +65,8 @@ class Search extends Component {
             >Search</button>
           </div>
         </div>
+        {/* <React.Fragment /> */}
+        <Error message={this.state.error}/>
         <Countries countriesList={this.state.countriesList}/>
         <Summary 
         total={this.state.totalCountries}
